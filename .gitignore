@@ -5,6 +5,7 @@
 *.sass-cache
 *GENERATED*
 *NOT_VERSIONED*
+.conda-*
 .coverage
 .eggs/
 .idea
