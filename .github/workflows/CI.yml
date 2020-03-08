@@ -52,6 +52,20 @@ jobs:
     steps:
       - run: echo 'github.event_name is:' ${{ github.event_name }}
 
+  on-push-job-specific-repo-1:
+    if: github.event_name == 'push' && github.repository == 'marble/sphinx_typo3_theme'
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'github.event_name is:' ${{ github.event_name }}
+      - run: echo 'github.repository   :' ${{ github.repository }}
+
+  on-push-job-specific-repo-2:
+    if: github.event_name == 'push' && github.repository == 'TYPO3-Documentation/sphinx_typo3_theme'
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'github.event_name is:' ${{ github.event_name }}
+      - run: echo 'github.repository   :' ${{ github.repository }}
+
 
   on-release-job:
     if: github.event_name == 'release' && github.event.action == 'published'
@@ -347,6 +361,7 @@ jobs:
       - run: find packages
       - run: twine check packages/*
       - name: Publish on PyPi
+        if: github.repository == 'TYPO3-Documentation/sphinx_typo3_theme'
         env:
           TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
@@ -391,6 +406,7 @@ jobs:
         run:  cp -r sphinx_typo3_theme/static  cdn/theme/sphinx_typo3_theme/master
       - run: find .
       - name: Upload to Azure
+        if: github.repository == 'TYPO3-Documentation/sphinx_typo3_theme'
         env:
           AZURE_STORAGE_ACCOUNT: ${{ secrets.AZURE_ACCOUNT }}
           AZURE_STORAGE_KEY: ${{ secrets.AZURE_KEY }}
